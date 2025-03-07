@@ -1,5 +1,5 @@
 from langchain_community.document_loaders import PyPDFLoader
-from langchain_text_splitters import CharacterTextSplitter, RecursiveCharacterTextSplitter
+from langchain_text_splitters import CharacterTextSplitter
 
 q1_pdf = "OpenSourceLicenses.pdf"
 q2_pdf = "勞動基準法.pdf"
@@ -25,13 +25,13 @@ def hw02_2(pdf_file):
     loader = PyPDFLoader(pdf_file)
     documents = loader.load()
     full_text = "\n".join(doc.page_content for doc in documents)
-    print(full_text)
+    # print(full_text)
 
     text_splitter = CharacterTextSplitter(
-        separator=r"(第\s*.+\s*[條章].+\n)",
-        chunk_size=10,  # 設置較大值以容納完整條文
-        chunk_overlap=0,  # 無重疊
-        is_separator_regex=True  # 啟用正則表達式
+        separator="[\s\n]第.+[條章][\s\n]",
+        chunk_size=10,
+        chunk_overlap=0,
+        is_separator_regex=True
     )
 
     chunks = text_splitter.split_text(full_text)
